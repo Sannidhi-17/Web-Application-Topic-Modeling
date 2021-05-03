@@ -1,0 +1,434 @@
+.header {
+    background-color: #367fa9;
+    font-size: xx-large;
+    font-family: revert;
+    color: white;
+    height: 50px;
+    margin-bottom: 0;
+    margin-left: 0px;
+}
+.header .logo {
+    float: left;
+    font-size: 26px;
+    background-color: #1c6eb0;
+    line-height: 50px;
+    text-align: center;
+    padding: 0 10px;
+    width: 220px;
+    font-family: "Helvetica", Verdana, Arial, sans-serif;
+    font-weight: bold;
+    height: 50px;
+    display: block;
+}
+.sidenav {
+    background-color: #111111;
+    height: 100%;
+    width: 30%;
+}
+
+.mydiv a{
+background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+
+}
+
+.mydiv a:hover {
+  background-color: #ddd;
+  color: black;
+
+}
+.mydiv a.active {
+  background-color: #112211;
+  color: white;
+
+}
+
+.main_headr {
+    background-color: #fbfbfb;
+    font-size: xx-large;
+    font-family: revert;
+    color: black;
+    height: 80px;
+    margin-bottom: 0;
+    margin-left: 0px;
+    margin-bottom: 8px;
+}
+
+.ask_for_analysis {
+    right: 970px;
+    top: 90px;
+    position: absolute;
+    font-size: 20px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom: 0px solid #f4f4f4;
+    color: #444;
+ }
+.choerencegraph{
+    top: 300px;
+    position: absolute;
+    left: 150px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.initialianalysis{
+ margin:0 auto;
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    top: 120%;/*moves the div down 30% from the top of the screen*/
+    text-align: center;
+}
+
+.newtopic{
+ font: center;
+ position: absolute;
+ top:1340px;
+ text-align: center;
+  }
+
+.wordcloud{
+    top: 1500px;
+    position: absolute;
+    left: 150px;
+    font-size: 30px;
+    text-align: center;
+}
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+.frequency{
+    top: 2100px;
+    position: absolute;
+    left: 150px;
+    font-size: 30px;
+    text-align: center;
+}
+.percentage{
+    top: 2700px;
+    position: absolute;
+    left: 150px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.keywords{
+    top: 3300px;
+    position: absolute;
+    left: 150px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.right { float: right; }
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.item {
+    padding: 13px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.item:first-child { border-top: 1px solid #e7e7e7; }
+.item:nth-child(even) { background-color: #f7f7f7; }
+
+.item__description {
+    float: left;
+}
+
+.item__delete {
+    float: left;
+}
+
+.item__delete--btn {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    display: none;
+}
+
+.item__delete--btn:focus { outline: none; }
+.item__delete--btn:active { transform: translateY(2px); }
+
+.item:hover .item__delete--btn { display: block; }
+.item:hover .item__value { transform: translateX(-20px); }
+.item:hover .item__percentage { transform: translateX(-20px); }
+
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 4px 6px;
+  font-size: 8px;
+  cursor: pointer;
+}
+
+
+/*
+CHIPS
+*/
+
+.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+
+.chip img {
+  float: left;
+  margin: 0 10px 0 -25px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: #000;
+}
+
+.topicTable{
+ border: none;
+ }
+
+#sheet {
+    display: none;
+}
+
+#sheetNo {
+    display: none;
+}
+
+.loader {
+    margin: 5rem auto;
+    text-align: center;
+    .loader svg {
+        height: 5.5rem;
+        width: 5.5rem;
+        fill: #F59A83;
+        transform-origin: 44% 50%;
+        animation: rotate 1.5s infinite linear;
+    }
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+#deleteKeyword {
+    display: none;
+}
+.tableFixHead          { overflow-y: auto; height: 400px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 80%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+
+/* Borders (if you need them) */
+.tableFixHead,
+.tableFixHead td {
+  box-shadow: inset 1px -1px #000;
+}
+.tableFixHead th {
+  box-shadow: inset 1px 1px #000, 0 1px #000;
+}
+
+#renameTopic{
+    display: none;
+}
+
+#mergeTopic{
+    display: none;
+}
+
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.loader {
+  margin: 0.6rem auto;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  left: 1450px;
+  position: relative;
+  border: 4px solid #Fff;
+  animation: loader 2s infinite ease;
+}
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  animation: loader-inner 2s infinite ease-in;
+}
+@keyframes loader {
+  0% { transform: rotate(0deg);}
+  25% { transform: rotate(180deg);}
+  50% { transform: rotate(180deg);}
+  75% { transform: rotate(360deg);}
+  100% { transform: rotate(360deg);}
+}
+@keyframes loader-inner {
+  0% { height: 0%;}
+  25% { height: 0%;}
+  50% { height: 100%;}
+  75% { height: 100%;}
+  100% { height: 0%;}
+}
+
+.add-btn {
+            color: green;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+ #wrapper {
+            margin: 0 auto;
+            padding: 0px;
+            text-align: center;
+            width: 995px;
+}
+
+#wrapper h1 {
+            margin-top: 50px;
+            font-size: 45px;
+            color: #585858;
+        }
+
+        #wrapper h1 p {
+            font-size: 20px;
+        }
+
+        #table_detail {
+            width: 40px;
+            text-align: left;
+            border-collapse: collapse;
+            color: #2E2E2E;
+            border: #A4A4A4;
+        }
+
+        #table_detail tr:hover {
+            background-color: #F2F2F2;
+        }
+
+        #table_detail .hidden_row {
+            display: none;
+        }
+
+        #table1_detail {
+            text-align: left;
+            border-collapse: collapse;
+            color: #2E2E2E;
+            border: #A4A4A4;
+        }
+
+        #table1_detail tr:hover {
+            background-color: #F2F2F2;
+        }
+
+        #table1_detail .hidden_row {
+            display: none;
+        }
+
+.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: #000;
+}
+
+#table2_detail {
+       text-align: left;
+       border-collapse: collapse;
+       color: #2E2E2E;
+       border: #A4A4A4;
+       }
+
+#table2_detail tr:hover {
+        background-color: #F2F2F2;
+       }
+
+#table2_detail .hidden_row {
+        display: none;
+       }
+
+#table_detail_2 {
+       text-align: left;
+       border-collapse: collapse;
+       color: #2E2E2E;
+       border: #A4A4A4;
+       }
+
+#table_detail_2 tr:hover {
+        background-color: #F2F2F2;
+       }
+
+#table_detail_2 .hidden_row {
+        display: none;
+       }

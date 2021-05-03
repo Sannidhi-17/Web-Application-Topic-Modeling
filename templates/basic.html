@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Template Design</title>
+    <link rel="stylesheet" href="{% static  'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static  'css/bootstrap.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src=
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src=
+                    "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href=
+            "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          type="text/css" href=
+                  "https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+</head>
+<body>
+
+<div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+<!--Create the Impacter headline-->
+<div class="header">
+    <a class="logo">Impacter</a>
+</div>
+<!--Sub-header application name-->
+<div class="main_headr">
+    <h2 align="center" style="padding-top: 18px">Automatic Topic Modeling</h2>
+</div>
+
+<!--Create the interactive part on the left side of the web-page-->
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+
+            <!--            Form-1: contains the input file, output(analysis) name and sheet name-->
+            <div class="well sidebar-nav">
+                <div class="container">
+
+                    {% block content %}
+                    <form id="form1" method="post" enctype="multipart/form-data" onchange="return Validate(this);">
+                        {% csrf_token %}
+                        <h3>Enter the File:</h3>
+                        <input type="file" name="document">
+                        <p>Note: Select the file from local disc</p>
+                        <h3>Enter the Output file name:</h3>
+                        <label>Output File Name: </label>
+                        <input type="text" name="output_file_name" required>
+                        <h3 id="sheet">Enter the Sheetname:</h3>
+                        <input type="text" name="sheetname" id="sheetNo">
+
+                        <br><input type="checkbox" name="vehicle1">
+                        <label for="vehicle1"> Remove numbers from the file</label><br>
+                        <input type="submit" id="startAnalysis" value="Start Analysis">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                    </form>
+                    {% endblock %}
+                </div>
+            </div><!--/.well -->
+
+            <!--            Form-2: If user want to change the number of topics -->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <h3>Change the number of topics:</h3>
+                    <button onclick="showForm_1()">Change number of topics</button>
+                    <form id="ChangeTopics" method="POST" style="display: none;" action="{% url 'change_topic' %}">
+                        {% csrf_token %}
+                        <label>ChangeTopic:</label><br>
+                        <input type="text" name="change_topic" value="{{max_key}}"
+                               onkeypress="return onlyNumberKey(event)"
+                               maxlength="02"><br>
+                        <input type="submit" id="restartAnalysis" name=" ">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <label>Refresh the page:</label><br>
+                    <button onClick="window.location.reload();">Refresh Page</button>
+                </div>
+            </div>
+            <!-- Interactive part in which user can change the analysis-->
+            <h1>Interactive part</h1>
+
+            <!-- Form-3:  Addstopwords  -->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <!--                    <label>Add Stopwords</label><br>-->
+                    <button onclick="showForm_2()">Add stop words</button>
+                    <form id="addstopWords" method="POST" style="display: none;" action="{% url 'add_stopwords' %}">
+                        {% csrf_token %}
+                        <label>Add stopwords Topic:</label><br>
+                        <input type="text" name="add_stopwords"><br>
+                        <input type="submit" id="addStopwords" name=" ">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                        <br>
+                    <p>additional stopwords are:</p>
+                    <p> {{additional_stopwords}}</p>
+                    </form>
+                </div>
+            </div>
+            <!--                   Form-4: Remove Stopwords-->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <button onclick="myFunction_4()">Remove stop words</button>
+                    <form id="removestopwords" method="POST" style="display: none;"
+                          action="{% url 'remove_stopwords' %}">
+                        {% csrf_token %}
+                        <br><label>Remove stopwords Topic:</label><br>
+                        <input type="text" name="remove_stopwords"><br>
+                        <input type="submit" id="RemoveStopwords" name=" ">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                        <br>
+                    <p>additional stopwords are:</p>
+                    <p> {{additional_stopwords}}</p>
+                    </form>
+
+                </div>
+            </div>
+
+            <!--            Form-5: Rename topic-->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <button onclick="myFunction()">Rename Topic</button>
+                    <form id="renameTopic" method="POST" style="display: none;" action="{% url 'rename_topic' %}">
+                        {% csrf_token %}
+                        <label>Select Topic Number:</label><br>
+                        <select name="topic_number">
+                            {% for row in rows %}
+                            <option>{{row.Topic_id}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Rename Topic:</label><br>
+                        <input type="text" id="rename" name="name"><br>
+                        <input type="submit" id="RenameTopics" name=" " value="Apply">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!--            Form-6: Merge two different topics-->
+            <div class="well sidebar-nav">
+                <div class="container">
+
+                    <button type="button" value="Add Child" onclick="addChild()">Merge Topics</button>
+                    <form id="mergeTopic" method="POST" style="display: none;" action="{% url 'merge_topics' %}">
+                        {% csrf_token %}
+                        <label>Select Topic Number-1:</label><br>
+                        <select name="topic_number_1">
+                            {% for row in rows %}
+                            <option>{{row.Topic_id}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Select Topic Number-2:</label><br>
+                        <select name="topic_number_2">
+                            {% for row in rows %}
+                            <option>{{row.Topic_id}}</option>
+                            {% endfor %}
+                        </select>
+                        <br><input type="submit" id="MergeTopics" name=" " value="Apply">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            {% load basic_extras %}
+            <!--            Form-7: Delete the keywords-->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <button onclick="showForm()">Delete Keyword</button>
+                    <form id="delete_keyword" method="POST" style="display: none;" action="{% url 'keyword_delete' %}">
+                        {% csrf_token %}
+                        <table border=1 id="table2_detail"
+                               cellpadding=10>
+                            <tr>
+                                <th>Topic ID</th>
+                            </tr>
+
+                            {% for row3 in rows %}
+                            <tr onclick="showHideRow({{row3.Topic_id}});">
+                                <td>{{row3.Topic_id}}</td>
+                            </tr>
+
+                            <tr id={{row3.Topic_id}} class="hidden_row">
+                                <td>
+                                    {% with row3.Top_ten_words|split:"," as words %}
+                                    {% for word in words %}
+
+                                    <input class="chip" type="submit" name="delete_keyword" id="Deletekeywords"value="{{word}}">
+<!--                                    <span class="closebtn">&times;</span>-->
+                                    {% endfor %}
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- Form-8: Split Topics -->
+            <div class="well sidebar-nav">
+                <div class="container">
+                <button onclick="myFunction_5()">Split Topics</button>
+                    <form id="SplitTopics" method="POST" style="display: none;" action="{% url 'split_topic' %}">
+                        {% csrf_token %}
+                        <label>Select Topic Number:</label><br>
+                        <select name="topic_number">
+                            {% for row in rows %}
+                            <option>{{row.Topic_id}}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Enter words in topic-1:</label>
+                        <input type="text" name="topic_1_keywords" required>
+                        <label>Enter words in topic-2:</label>
+                        <input type="text" name="topic_2_keywords" required><br>
+
+                        <input type="submit" id="" name="SplitTopics" value="Apply">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                        <table border=1 id="table_detail_2"
+                               cellpadding=10>
+                            <tr>
+                                <th>Topic ID</th>
+                            </tr>
+
+                            {% for row4 in rows %}
+                            <tr onclick="showHideRow({{row4.Topic_id}}{{row4.Topic_id}}{{row4.Topic_id}});">
+                                <td>{{row4.Topic_id}}</td>
+                            </tr>
+
+                            <tr id={{row4.Topic_id}}{{row4.Topic_id}}{{row4.Topic_id}} class="hidden_row">
+                                <td>
+                                    {% with row4.Top_ten_words|split:"," as words %}
+                                    {% for word in words %}
+
+                                    <input class="chip" value="{{word}}">
+<!--                                    <span class="closebtn">&times;</span>-->
+                                    {% endfor %}
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+
+                    </form>
+                </div>
+            </div>
+
+            <!--            Form-9: Top Response Number             -->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <button onclick="myFunction_3()">Responses numbers</button>
+                    <form id="TopResponses" method="POST" style="display: none;" action="{% url 'top_Responses' %}">
+                        {% csrf_token %}
+                        <label>Number of top responses:</label><br>
+                        <input type="text" name="top_responses" value="10"><br>
+                        <input type="submit" id="ResponsesNumber" name=" " value="Apply">
+                        <button type="button" onclick="alert('Really you want to cancel analysis?')">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!--            Button Archive Page which contains the all the previous analysis-->
+            <div class="well sidebar-nav">
+                <div class="container">
+                    <button onclick="openWin()">Archieve Pages</button>
+                </div>
+            </div>
+
+            <!--        Spin-Loader -->
+        </div><!--/span-->
+        <div id="spinner-box" class="text-center mt-3">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <!--        Coherence Graph-->
+        <div class="span9" id="image1">
+            <div class="hero-unit">
+                <div class="container">
+                    <h2> Coherence Graph</h2>
+                    <h4>The output file name is: {{output_file_name}} </h4>
+                    <p id="date"></p>
+
+                    <p> It suggest the topic numbers for the analyzing the documents.</p>
+                    <img id="coherence" src="{% static 'images/coherenc_graph.png' %}" alt="Uh Oh, didn't show!"
+                         height="500"
+                         width="1000">
+                </div>
+            </div>
+
+            <!--            Default analysis in the table format-->
+            <div class="row-fluid">
+                <div class="container">
+                    <h2>Default analysis of the document</h2>
+                    <p> Currently, document has a {{max_key}} number of topics.</p>
+
+                    <div class="tableFixHead">
+                        <table id="table">
+                            <thead>
+                            <tr>
+                                {% for col in columns %}
+                                <th>{{ col }}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for row in rows %}
+                            <tr>
+                                <td>{{row.Topic_id}}</td>
+                                <td>{{row.Themes}}</td>
+                                <td>{{row.Top_ten_words}}</td>
+                                <td>{{row.Documents}}</td>
+                                <td>{{row.Frequency_of_each_topic}}</td>
+                                <td>{{row.Percentage_of_each_topic}}</td>
+                                <td>{{row.Top_responses}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <p> Exports the default-analysis</p>
+                    <p>Export the Excel-file:</p>
+                    <button onclick="window.location.href='/down_file'">Download file</button>
+                </div>
+
+                <!--                Analysis-1: Wordcloud-->
+            </div><!--/row--><br>
+            <div class="hero-unit">
+                <div class="container">
+                    <h3>Wordcloud</h3>
+                    <img src="{% static 'images/wordCloud.png' %}" alt="Uh Oh, didn't show!" height="500" width=
+                            "1000">
+                    <p>Export the Visualization:</p>
+                    <button onclick="window.location.href='/down_file_wordcloud'">Download Analysis</button>
+                </div>
+                <br>
+                <!--                -->
+                <!--                Analysis-2: Top three Keywords per topic-->
+                <div class="container">
+                    <h3>Top three keywords per each topic</h3>
+                    <img src="{% static 'images/keywords.png' %}" alt="Uh Oh, didn't show!"
+                         height="500" width=
+                                 "1000">
+                    <p>Export the Visualization:</p>
+                    <button onclick="window.location.href='/down_file_top_keywords'">Download Analysis</button>
+                </div>
+                <br>
+                <!--                -->
+                <!--                Analysis-3: Frequency Graph-->
+                <div class="container">
+                    <h3>Frequency of each topic</h3>
+                    <img src="{% static 'images/Frequency_of_topic.png' %}" alt="Uh Oh, didn't show!"
+                         height="500" width=
+                                 "1000">
+                    <p>Export the Visualization:</p>
+                    <button onclick="window.location.href='/down_file_Frequency_of_topics'"> Download Analysis</button>
+                </div>
+                <br>
+                <!--                -->
+                <!--                Analysis-4: Percentage Graph-->
+                <div class="container">
+                    <h3>Percentage of each topic</h3>
+                    <img src="{% static 'images/percentage_of_topic.png' %}" alt="Uh Oh, didn't show!" height="1200"
+                         width=
+                                 "1300">
+                </div>
+                <p>Export the Visualization:</p>
+                <button onclick="window.location.href='/down_file_Percentage_of_Topics'">Download Analysis</button>
+            </div><!--/row-->
+
+            <!--            Interactive table-->
+            <div class="hero-unit">
+                <h2>Interactive Part</h2>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="well sidebar-nav">
+
+                            <table border=1 id="table_detail"
+                                   align=center cellpadding=10>
+
+                                <tr>
+                                    <th>Topic ID</th>
+                                    <th>Themes</th>
+                                </tr>
+
+                                {% for row in rows %}
+                                <tr onclick="showHideRow({{row.Topic_id}}{{row.Topic_id}}{{row.Topic_id}}{{row.Topic_id}});">
+                                    <td>{{row.Topic_id}}</td>
+                                    <td>{{row.Themes}}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="well sidebar-nav">
+                            <table border=1 id="table1_detail"
+                                   align=center cellpadding=10>
+                                <tr>
+                                    <th>Topic ID</th>
+                                    <th>Top ten words</th>
+                                    <th>Top Responses</th>
+                                </tr>
+                                {% for row in rows %}
+                                <tr id={{row.Topic_id}}{{row.Topic_id}}{{row.Topic_id}}{{row.Topic_id}} class="hidden_row">
+                                    <td>{{row.Topic_id}}</td>
+                                    <td>{{row.Top_ten_words}}</td>
+                                    <td>{{row.Top_responses}}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div><!--/span-->
+</div><!--/row-->
+
+
+</div><!--/.fluid-container-->
+
+<!--{{ content }}-->
+
+<!--{% include 'archieve.html' %}-->
+<!--{% include 'archieve.html' with obj=obj additional_context='porn' %}-->
+{{insert_me}}
+
+
+</body>
+<!--<script type="text/javascript">-->
+<!--        var table = $("#results");-->
+<!--        table.on("click", "td", myFunction); // <&#45;&#45; magic!-->
+<!--        var url = "http://dbpedia.org/sparql";-->
+<!--</script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+        $("#startAnalysis").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+
+        $("#restartAnalysis").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+        $("#addStopwords").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+        $("#RemoveStopwords").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+           $("#RenameTopics").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+           $("#MergeTopics").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+        $("#DeleteKeywords").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+        $("#ResponsesNumber").bind("click",function(){
+            $(".loader-wrapper").css("display","inline-block");
+            $(window).bind("load",function(){
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        });
+
+    var today = new Date();
+    var formatDate = today.getDate() + '-' + today.getMonth() + '-' + today.getFullYear() + '\n' + today.getHours() + ':' + today.getMinutes();
+    document.getElementById('date').innerText = formatDate;
+    var image1 = document.getElementById('image1')
+    document.getElementById('coherence').addEventListener('load', function(e) {
+        image1.classList.remove("hide");
+    });
+    if (performance.navigation.TYPE_RELOAD == 2 || performance.navigation.TYPE_NAVIGATE) {
+        image1.classList.remove("hide");
+    }
+    document.getElementById('table').addEventListener('change', function(e) {
+        image1.classList.remove("hide");
+    });
+    function openWin() {
+  window.open("http://127.0.0.1:8024/archievepage/");
+    }
+    function myFunction() {
+  document.getElementById('renameTopic').style.display = 'block';
+}
+    function addChild() {
+  document.getElementById('mergeTopic').style.display = 'block';
+}
+
+    function showForm() {
+  document.getElementById('delete_keyword').style.display = 'block';
+}
+ function showForm_1() {
+  document.getElementById('ChangeTopics').style.display = 'block';
+}
+function showForm_2() {
+  document.getElementById('addstopWords').style.display = 'block';
+}
+   function myFunction_3() {
+  document.getElementById('TopResponses').style.display = 'block';
+}
+function myFunction_4() {
+  document.getElementById('removestopwords').style.display = 'block';
+}
+function myFunction_5() {
+  document.getElementById('SplitTopics').style.display = 'block';
+}
+
+const reloadtButton = document.querySelector("#reload");
+// Reload everything:
+function reload() {
+    reload = location.reload();
+}
+
+// Event listeners for reload
+reloadButton.addEventListener("click", reload, false);
+
+
+
+
+
+</script>
+<script type="text/javascript">
+        function showHideRow(row) {
+            $("#" + row).toggle();
+        }
+        function showHideRow1(row) {
+            $("#" + row).toggle();
+        }
+
+
+
+
+</script>
+
+</html>

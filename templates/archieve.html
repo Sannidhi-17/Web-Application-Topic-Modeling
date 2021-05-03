@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Archieve page</title>
+    <link rel="stylesheet" href="{% static  'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static  'css/bootstrap.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div class="header">
+    <a class="logo">Impacter</a>
+</div>
+<div class="main_headr">
+    <h2 align="center" style="padding-top: 18px">Automatic Topic Modeling</h2>
+    <h2 align="center" style="padding-top: 18px">Archive Page</h2>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="hero-unit">
+            <div class="container">
+                <h3>Wordcloud</h3>
+                <img src="{% static 'images/wordCloud.png' %}" alt="Uh Oh, didn't show!" height="500" width=
+                        "1000">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="hero-unit">
+            <h2>Analysis-1: Default Analysis</h2>
+            <p> {{max_key}}</p>
+            <h3>The topic numbers are: {{max_key}}</h3>
+            <h3>The analysis name is: {{output_file_name}}</h3>
+            <br>
+            <div class="container">
+                <h3>Top three keywords per each topic</h3>
+                <img src="{% static 'images/keywords.png' %}" alt="Uh Oh, didn't show!"
+                     height="500" width=
+                             "1000">
+            </div>
+            <br>
+            <div class="container">
+                <h3>Frequency of each topic</h3>
+                <img src="{% static 'images/Frequency_of_topic.png' %}" alt="Uh Oh, didn't show!"
+                     height="500" width=
+                             "1000">
+            </div>
+            <div class="container">
+                <h3>Percentage of each topic</h3>
+                <img src="{% static 'images/percentage_of_topic.png' %}" alt="Uh Oh, didn't show!" height="1200"
+                     width=
+                             "1300">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var name=localStorage.getItem("firstname");
+</script>
+</html>
