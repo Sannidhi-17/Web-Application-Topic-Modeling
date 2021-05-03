@@ -189,9 +189,9 @@ class Automate_topic_modeling:
         new_df['docuemnt_tokens'] = new_df.documents.map(lambda x: RegexpTokenizer(r'\w+').tokenize(x))
 
         # Apply Lemmatization (Voikko)
-        os.add_dll_directory(r'C:\Voikko')
+        # os.add_dll_directory(r'C:\Voikko')
         C = libvoikko.Voikko(u"fi")
-        C.setLibrarySearchPath("C:\Voikko")
+        # C.setLibrarySearchPath("C:\Voikko")
 
         # Apply lemmatizations to the words
         def lemmatize_text(text):
